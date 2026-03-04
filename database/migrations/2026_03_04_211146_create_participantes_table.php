@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,6 +12,10 @@ return new class extends Migration
     {
         Schema::create('participantes', function (Blueprint $table) {
             $table->id();
+            $table->string('nombres', 120);
+            $table->string('apellidos', 120)->nullable();
+            $table->string('alias', 80)->nullable();
+            $table->boolean('activo')->default(true);
             $table->timestamps();
         });
     }

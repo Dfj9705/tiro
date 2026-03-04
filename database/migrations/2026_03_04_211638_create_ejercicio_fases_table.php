@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,7 +12,13 @@ return new class extends Migration
     {
         Schema::create('ejercicio_fases', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('ejercicio_id')->constrained('ejercicios')->cascadeOnDelete();
+            $table->string('nombre', 120);
+            $table->unsignedSmallInteger('orden')->default(1);
+            $table->unsignedInteger('tiempo_objetivo_seg')->nullable(); // opcional
             $table->timestamps();
+
+            $table->unique(['ejercicio_id', 'orden']);
         });
     }
 
