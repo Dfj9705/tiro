@@ -28,6 +28,12 @@ class ParticipanteResource extends Resource
         return $form->schema([
             Forms\Components\Section::make()
                 ->schema([
+                    Forms\Components\Select::make('grado_id')
+                        ->label('Grado')
+                        ->relationship('grado', 'nombre')
+                        ->searchable()
+                        ->preload()
+                        ->required(),
                     Forms\Components\TextInput::make('nombres')
                         ->required()
                         ->maxLength(120),
@@ -50,6 +56,10 @@ class ParticipanteResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('grado.nombre')
+                    ->label('Grado')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('nombre_completo')
                     ->label('Nombre')
                     ->searchable(query: function ($query, string $search) {

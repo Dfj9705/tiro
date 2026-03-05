@@ -11,7 +11,7 @@ class Participante extends Model
     use HasFactory;
     protected $table = 'participantes';
 
-    protected $fillable = ['nombres', 'apellidos', 'alias', 'activo'];
+    protected $fillable = ['nombres', 'apellidos', 'alias', 'activo', 'grado_id'];
 
     protected $casts = [
         'activo' => 'boolean',
@@ -27,5 +27,10 @@ class Participante extends Model
     public function getNombreCompletoAttribute(): string
     {
         return trim(($this->nombres ?? '') . ' ' . ($this->apellidos ?? ''));
+    }
+
+    public function grado()
+    {
+        return $this->belongsTo(Grado::class);
     }
 }

@@ -39,7 +39,7 @@ class ResultadosEjerciciosController extends Controller
                     'id' => $r->id,
                     'participante' => [
                         'id' => $r->participante->id,
-                        'nombre' => trim($r->participante->nombres . ' ' . $r->participante->apellidos),
+                        'nombre' => trim($r->participante->grado?->nombre . ' ' . $r->participante->nombres . ' ' . $r->participante->apellidos),
                         'alias' => $r->participante->alias,
                     ],
                     'total_puntos' => (int) $r->total_puntos,
