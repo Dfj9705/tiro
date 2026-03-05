@@ -18,9 +18,12 @@ class EjercicioParticipantesRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('participantes')
+                Forms\Components\Select::make('participante_id')
+                    ->relationship('participante', 'nombres')
+                    ->label('Participante')
+                    ->searchable()
+                    ->preload()
                     ->required()
-                    ->maxLength(255),
             ]);
     }
 
@@ -29,7 +32,13 @@ class EjercicioParticipantesRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('participantes')
             ->columns([
-                Tables\Columns\TextColumn::make('participantes'),
+                Tables\Columns\TextColumn::make('participante.nombres')
+                    ->label('Participante'),
+                Tables\Columns\TextColumn::make('participante.alias')
+                    ->label('Alias'),
+                Tables\Columns\IconColumn::make('participante.activo')
+                    ->boolean()
+                    ->label('Activo'),
             ])
             ->filters([
                 //
@@ -38,7 +47,20 @@ class EjercicioParticipantesRelationManager extends RelationManager
                 Tables\Actions\CreateAction::make(),
             ])
             ->actions([
+                Tables\Actions\Action::make('resultados')
+                    ->label('Resultados')
+                    ->icon('heroicon-o-trophy')
+                    ->color('primary')
+                    ->url(
+                        fn($record) =>
+                        \App\Filament\Admin\Resources\EjercicioParticipanteResource::getUrl(
+                            'edit',
+                            ['record' => $record]
+                        )
+                    ),
+
                 Tables\Actions\EditAction::make(),
+
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([

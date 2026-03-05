@@ -16,23 +16,31 @@ class FasesRelationManager extends RelationManager
 
     public function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('fases')
-                    ->required()
-                    ->maxLength(255),
-            ]);
+        return $form->schema([
+            Forms\Components\TextInput::make('nombre')
+                ->required()
+                ->maxLength(120),
+
+            Forms\Components\TextInput::make('orden')
+                ->numeric()
+                ->required()
+                ->default(fn() => (($this->getOwnerRecord()->fases()->max('orden') ?? 0) + 1)),
+
+            Forms\Components\TextInput::make('tiempo_objetivo_seg')
+                ->label('Tiempo objetivo (seg)')
+                ->numeric()
+                ->nullable(),
+        ]);
     }
 
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('fases')
+            ->defaultSort('orden')
             ->columns([
-                Tables\Columns\TextColumn::make('fases'),
-            ])
-            ->filters([
-                //
+                Tables\Columns\TextColumn::make('orden')->sortable(),
+                Tables\Columns\TextColumn::make('nombre')->searchable(),
+                Tables\Columns\TextColumn::make('tiempo_objetivo_seg')->label('Tiempo (seg)')->sortable(),
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
@@ -40,11 +48,6 @@ class FasesRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
             ]);
     }
 }

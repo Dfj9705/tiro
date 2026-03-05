@@ -19,12 +19,14 @@ class EjercicioParticipante extends Model
         'tiempo_real_seg',
         'total_puntos',
         'total_5x',
+        'factor',
     ];
 
     protected $casts = [
         'tiempo_real_seg' => 'integer',
         'total_puntos' => 'integer',
         'total_5x' => 'integer',
+        'factor' => 'decimal:4',
     ];
 
     public function ejercicio(): BelongsTo

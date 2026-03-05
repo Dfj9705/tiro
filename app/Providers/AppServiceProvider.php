@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\EjercicioParticipanteFase;
+use App\Observers\EjercicioParticipanteFaseObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        EjercicioParticipanteFase::observe(EjercicioParticipanteFaseObserver::class);
+
     }
 }
