@@ -25,7 +25,7 @@ class ResultadosEjerciciosController extends Controller
         $ejercicio->load([
             'tipo:id,nombre',
             'fases:id,ejercicio_id,nombre,orden,tiempo_objetivo_seg',
-            'ejercicioParticipantes.participante:id,nombres,apellidos,alias',
+            'ejercicioParticipantes.participante:id,nombres,apellidos,alias,grado_id',
         ]);
 
         // Ranking: si hay factor úsalo, si no puntos
